@@ -1,8 +1,8 @@
 FROM alpine:3.7
 
-LABEL maintainer="The Paperless Project https://github.com/danielquinn/paperless" \
+LABEL maintainer="Paperless unRAID Port https://github.com/cmccambridge/paperless" \
       contributors="Guy Addadi <addadi@gmail.com>, Pit Kleyersburg <pitkley@googlemail.com>, \
-        Sven Fischer <git-dev@linux4tw.de>"
+        Sven Fischer <git-dev@linux4tw.de>, Colin McCambridge <colin@mccambridge.org>"
 
 # Copy application
 COPY requirements.txt /usr/src/paperless/
