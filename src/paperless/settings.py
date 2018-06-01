@@ -20,6 +20,8 @@ if os.path.exists("/etc/paperless.conf"):
     load_dotenv("/etc/paperless.conf")
 elif os.path.exists("/usr/local/etc/paperless.conf"):
     load_dotenv("/usr/local/etc/paperless.conf")
+elif os.path.exists("/config/paperless.conf"):
+    load_dotenv("/config/paperlesss.conf")
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

@@ -5,11 +5,13 @@ LABEL maintainer="Paperless unRAID Port https://github.com/cmccambridge/paperles
         Sven Fischer <git-dev@linux4tw.de>, Colin McCambridge <colin@mccambridge.org>"
 
 # Copy application
+COPY paperless.conf.example /usr/src/paperless/
 COPY requirements.txt /usr/src/paperless/
 COPY src/ /usr/src/paperless/src/
 COPY data/ /usr/src/paperless/data/
 COPY media/ /usr/src/paperless/media/
 COPY scripts/docker-entrypoint.sh /sbin/docker-entrypoint.sh
+COPY scripts/unraid-functions.sh /sbin/unraid-functions.sh
 
 # Set export and consumption directories
 ENV PAPERLESS_EXPORT_DIR=/export \
@@ -40,7 +42,7 @@ RUN apk --no-cache --update add \
 
 WORKDIR /usr/src/paperless/src
 # Mount volumes and set Entrypoint
-VOLUME ["/usr/src/paperless/data", "/usr/src/paperless/media", "/consume", "/export"]
+VOLUME ["/usr/src/paperless/data", "/usr/src/paperless/media", "/config", "/consume", "/export"]
 ENTRYPOINT ["/sbin/docker-entrypoint.sh"]
 CMD ["--help"]
 

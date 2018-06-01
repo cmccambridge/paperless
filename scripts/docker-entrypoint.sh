@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $DIR/unraid-functions.sh
+
 # Source: https://github.com/sameersbn/docker-gitlab/
 map_uidgid() {
     USERMAP_ORIG_UID=$(id -u paperless)
@@ -58,7 +61,9 @@ migrations() {
 initialize() {
     map_uidgid
     set_permissions
+    unraid_initialize
     migrations
+    unraid_post_migrations
 }
 
 install_languages() {
