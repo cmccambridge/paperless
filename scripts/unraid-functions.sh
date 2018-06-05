@@ -22,13 +22,14 @@ ensure_paperless_conf() {
         chmod 600 /config/paperless.conf
         # propagate consumption and export directories
         local ESC_CONSUME_DIR=$(echo ${PAPERLESS_CONSUMPTION_DIR} | sed 's/[&/\]/\\&/g')
-        sed -i 's/PAPERLESS_CONSUMPTION_DIR=.*/PAPERLESS_CONSUMPTION_DIR="'"${ESC_CONSUME_DIR}"'/' /config/paperless.conf
+        sed -i 's/PAPERLESS_CONSUMPTION_DIR=.*/PAPERLESS_CONSUMPTION_DIR="'"${ESC_CONSUME_DIR}"'"/' /config/paperless.conf
         local ESC_EXPORT_DIR=$(echo ${PAPERLESS_EXPORT_DIR} | sed 's/[&/\]/\\&/g')
-        sed -i 's/PAPERLESS_EXPORT_DIR=.*/PAPERLESS_EXPORT_DIR="'"${ESC_EXPORT_DIR}"'/' /config/paperless.conf
+        sed -i 's/PAPERLESS_EXPORT_DIR=.*/PAPERLESS_EXPORT_DIR="'"${ESC_EXPORT_DIR}"'"/' /config/paperless.conf
 
         # seed the PAPERLESS_SECRET_KEY with alphanumeric and some special chars that won't need escapes
         local NEW_SECRET=$(cat /dev/urandom | tr -dc '!#$%*+,.=?@_a-zA-Z0-9' | fold -w 64 | head -n 1)
-        sed -i 's/^\s*#*\s*PAPERLESS_SECRET_KEY.*/PAPERLESS_SECRET_KEY="'"${NEW_SECRET}"'"/' /config/paperless.conf
+	local RANDOMIZE_TIME=$(date "+%F at %T")
+        sed -i 's/^\s*#*\s*PAPERLESS_SECRET_KEY.*/# Randomized by container intialization on '"${RANDOMIZE_TIME}"'\nPAPERLESS_SECRET_KEY="'"${NEW_SECRET}"'"/' /config/paperless.conf
 
         # knock out the PAPERLESS_PASSPHRASE - we'll set it in the unRAID template
         sed -i 's/^PAPERLESS_PASSPHRASE.*/#PAPERLESS_PASSPHRASE="" # Set by unRAID template parameters/' /config/paperless.conf
