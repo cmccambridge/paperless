@@ -60,7 +60,7 @@ class FetchView(SessionOrBasicAuthMixin, DetailView):
             GnuPG.decrypted(self.object.source_file),
             content_type=content_types[self.object.file_type]
         )
-        response["Content-Disposition"] = 'attachment; filename="{}"'.format(
+        response["Content-Disposition"] = 'inline; filename="{}"'.format(
             self.object.file_name)
 
         return response
